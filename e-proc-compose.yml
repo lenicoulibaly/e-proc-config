@@ -1,0 +1,26 @@
+services:
+  eureka-server:
+    image: lenicoulibaly/eureka-server
+    container_name: eureka-container
+    ports:
+      - "8761:8761"
+    restart: unless-stopped
+  config-server:
+    image: lenicoulibaly/config-server:4.1.2_3
+    container_name: config-server-container
+    ports:
+      - "8888:8888"
+    restart: unless-stopped
+  gateway:
+    image: lenicoulibaly/gateway:4.1.4.1
+    container_name: gateway-container
+    ports:
+      - "9999:9999"
+    restart: unless-stopped
+    depends_on:
+      - eureka-server
+      - config-server
+  type-service:
+
+
+  #docker run -d --name oracle-db-container -p 1522:1521 -p 5500:5500 -e ORACLE_SID=XE -e ORACLE_PDB=e-proc -e ORACLE_PWD=1234 -e ENABLE_ARCHIVELOG=true -v oracle-data:/opt/oracle/oradata container-registry.oracle.com/database/express:21.3.0-xe
